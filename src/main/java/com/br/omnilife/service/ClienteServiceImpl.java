@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.br.omnilife.domain.Cliente;
 import com.br.omnilife.dto.ClienteDTO;
+import com.br.omnilife.dto.ClienteNovoDTO;
 import com.br.omnilife.exceptions.ClienteExceptions;
 import com.br.omnilife.mapper.MapperGeneric;
 import com.br.omnilife.repository.ClienteRepository;
@@ -23,12 +24,15 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Autowired
 	private MapperGeneric<Cliente, ClienteDTO> mapper;
+	
+	@Autowired
+	private MapperGeneric<Cliente, ClienteNovoDTO> mapperNovo;
 
 	@Override
-	public ClienteDTO inserir(ClienteDTO cliente) throws ClienteExceptions {
+	public ClienteNovoDTO inserir(ClienteNovoDTO cliente) throws ClienteExceptions {
 		try {
-			Cliente entity = mapper.convertToEntity(cliente, Cliente.class);
-			return mapper.convertToDto(repository.save(entity), ClienteDTO.class);
+			Cliente entity = mapperNovo.convertToEntity(cliente, Cliente.class);
+			return mapperNovo.convertToDto(repository.save(entity), ClienteNovoDTO.class);
 
 		} catch (Exception e) {
 			throw new ClienteExceptions().inserirCliente(e);
