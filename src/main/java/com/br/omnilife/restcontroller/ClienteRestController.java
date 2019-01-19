@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,14 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.br.omnilife.dto.ClienteDTO;
+import com.br.omnilife.dto.ClienteNovoDTO;
 import com.br.omnilife.dto.Response;
 import com.br.omnilife.exceptions.ClienteExceptions;
 import com.br.omnilife.service.ClienteService;
 
-
 import io.swagger.annotations.ApiOperation;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/cliente")
 public class ClienteRestController {
 
@@ -35,25 +37,25 @@ public class ClienteRestController {
 
 	@ApiOperation(value = "Cadastrar um novo Cliente", notes = "Essa operação salva um novo registro com as informações da Cliente")
 	@PostMapping
-	public ResponseEntity<Response<ClienteDTO>> postCliente(@Valid @RequestBody ClienteDTO dto,
+	public ResponseEntity<Response<ClienteNovoDTO>> postCliente(@Valid @RequestBody ClienteNovoDTO dto,
 			UriComponentsBuilder ucBuilder) throws ClienteExceptions {
-		Response<ClienteDTO> response = new Response<>();
+		Response<ClienteNovoDTO> response = new Response<>();
 		try {
 
 			HttpHeaders headers = new HttpHeaders();
-			ClienteDTO compras = service.inserir(dto);
-			headers.setLocation(ucBuilder.path("/cliente/{id}").buildAndExpand(compras.getId()).toUri());
+			ClienteNovoDTO clienteNovo = service.inserir(dto);
+			headers.setLocation(ucBuilder.path("/cliente/{id}").buildAndExpand(clienteNovo.getId()).toUri());
 
-			response.setCode(compras);
+			response.setCode(clienteNovo);
 			response.setData(Calendar.getInstance().getTime());
 			response.setMensagem("Operação realizada com sucesso");
 
-			return new ResponseEntity<Response<ClienteDTO>>(response, headers, HttpStatus.CREATED);
+			return new ResponseEntity<Response<ClienteNovoDTO>>(response, headers, HttpStatus.CREATED);
 
 		} catch (ClienteExceptions e) {
 			response.setData(Calendar.getInstance().getTime());
 			response.setMensagem(e.getMsg());
-			return new ResponseEntity<Response<ClienteDTO>>(response, e.getHttpCode());
+			return new ResponseEntity<Response<ClienteNovoDTO>>(response, e.getHttpCode());
 		}
 	}
 
