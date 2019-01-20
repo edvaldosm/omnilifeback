@@ -31,5 +31,8 @@ public class Suplementos {
 
 	@Column(name = "observacao", length = 150)
 	private String obs;
+	
+	@Column(name = "img64")
+	private String img64;
 
 }
