@@ -30,4 +30,5 @@ public class SuplementosDTO {
 	@NotBlank(message="Campo descricao não pode estar em branco")
 	private String descricao;
 	private String obs;
+	private String img64;
 }
