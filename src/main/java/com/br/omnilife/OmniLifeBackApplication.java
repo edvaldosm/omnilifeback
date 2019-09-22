@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
+//@EnableAdminServer
 public class OmniLifeBackApplication {
 
 	public static void main(String[] args) {
