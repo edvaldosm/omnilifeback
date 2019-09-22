@@ -73,6 +73,6 @@ public class ClienteServiceImpl implements ClienteService {
 		if (!lista.isEmpty()) {
 			return lista;
 		}
-		throw new ClienteExceptions().registroNaoEncontrado(null);
+		throw new ClienteExceptions().registrosNaoEncontrado("");
 	}
 }
